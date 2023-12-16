@@ -1,4 +1,5 @@
 import pygame
+from enemy import enemy
 pygame.init()
 gamescreen = pygame.display.set_mode((400,400));
 clock = pygame.time.Clock()
@@ -41,7 +42,8 @@ while running:
         playerPos.y = ground - 20
         playerVelocity[1] = 0
 
-    
+    #testing out classes
+    enemy1 = enemy("bingus",20)
 
     pygame.display.flip()
 
