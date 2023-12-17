@@ -1,7 +1,8 @@
 import pygame
 from enemy import enemy
+from bird import flappybird
 pygame.init()
-gamescreen = pygame.display.set_mode((400,400));
+gamescreen = pygame.display.set_mode((400,400))
 clock = pygame.time.Clock()
 running = True
 playerPos = pygame.Vector2(gamescreen.get_width()/2, gamescreen.get_height()/2)
@@ -10,40 +11,30 @@ gravity = 100
 dt = 0
 ground = gamescreen.get_height()*3/4
 
+flappybird = flappybird(playerPos)
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
     gamescreen.fill("black")
-    pygame.draw.circle(gamescreen,"red",playerPos,20)
+    flappybird.draw()
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP]:
-        playerPos.y -= 300*dt
+        flappybird.updatePos(0,-300*dt) 
     if keys[pygame.K_DOWN]:
         if playerPos.y+20 < ground:
-            playerPos.y += 300*dt
+            flappybird.updatePos(0,300*dt) 
         else:
-            playerPos.y = ground - 20
-    if keys[pygame.K_LEFT]:
-        playerPos.x -= 300*dt
-    if keys[pygame.K_RIGHT]:
-        playerPos.x += 300*dt
+            flappybird.setPos(0,ground-20) 
+   
     if keys[pygame.K_SPACE]:
-        playerVelocity[1] = -100
+        flappybird.updateVelocity(0,-100)
 
-    #implement gravity and resistance here
-        
-    #gravity
-    playerVelocity[1] += gravity*dt
-
-    playerPos.y = playerVelocity[1]*dt + playerPos.y
-    if playerPos.y+20 > ground:
-        playerPos.y = ground - 20
-        playerVelocity[1] = 0
-
-    #testing out classes
-    enemy1 = enemy("bingus",20)
+    flappybird.updateVelocity(dt,ground)
+   
 
     pygame.display.flip()
 
